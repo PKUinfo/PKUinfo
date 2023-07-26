@@ -49,7 +49,7 @@ class ContentGetter:
         result = ''
         for item in ocrinfo:
             result += item[1]
-        print('result = ', result)
+        # print('result = ', result)
         return result
 
     def get_text(self, url):
@@ -98,7 +98,7 @@ class ContentGetter:
     def get_fulltext(self, url):
         text = self.get_text(url)
         print(text)
-        imginfo = self.get_imginfo(url)
+        imginfo = '' #self.get_imginfo(url)
         print(text + imginfo)
         return text + imginfo
 
