@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pku.pkuinfo.pojo.ActivityFeedbackInfo;
 import pku.pkuinfo.pojo.ActivityInfo;
+import pku.pkuinfo.pojo.Link;
 import pku.pkuinfo.service.ActivityOperationService;
+import pku.pkuinfo.service.ActivityProcessService;
 import pku.pkuinfo.service.FeedbackOperationService;
 import pku.pkuinfo.utils.Result;
 
@@ -20,6 +22,9 @@ public class UserController {
 
     @Autowired
     private FeedbackOperationService feedbackService;
+
+    @Autowired
+    private ActivityProcessService activityProcessService;
 
     // 测试接口
     @RequestMapping("/api/test-string")
@@ -41,5 +46,12 @@ public class UserController {
     public Result insertFeedbackActivity(@RequestBody ActivityFeedbackInfo feedbackInfo){
         Boolean res = feedbackService.insert(feedbackInfo);
         return Result.success();
+    }
+
+    @PostMapping("/api/user/submit/link")
+    public Result processActivityLink(@RequestBody Link url){
+        Boolean res = activityProcessService.processActivityLink(url);
+        System.out.println("返回结果: " + res);
+        return Result.auto(res,"发送成功","链接错误",null);
     }
 }

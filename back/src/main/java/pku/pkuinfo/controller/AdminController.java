@@ -7,7 +7,6 @@ import pku.pkuinfo.pojo.ActivityInfo;
 import pku.pkuinfo.service.ActivityOperationService;
 import pku.pkuinfo.service.FeedbackOperationService;
 import pku.pkuinfo.utils.Result;
-
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -32,7 +31,13 @@ public class AdminController {
 
     @GetMapping("/api/admin/activityfeedback")
     public List<ActivityFeedbackInfo> selectActivityFeedbackInformation(){
-        List<ActivityFeedbackInfo> res = feedbackService.select();
-        return res;
+        return feedbackService.select();
+    }
+
+    // 接收URL请求 转发至Python端
+    @PostMapping("/api/admin/activityurl/{targeturl}")
+    public Result urlTransmit(@PathVariable String targeturl){
+        System.out.println(targeturl);
+        return Result.success();
     }
 }

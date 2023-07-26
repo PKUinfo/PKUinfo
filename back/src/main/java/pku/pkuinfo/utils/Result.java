@@ -31,13 +31,27 @@ public class Result {
     }
 
     public static Result success(Object data){
-        return new Result(1, "success", data);
+        return success("success", data);
     }
     public static Result success(){
-        return new Result(1, "success", null);
+        return success("success");
+    }
+    public static Result success(String msg, Object data){
+        return new Result(1, msg, data);
+    }
+    public static Result success(String msg){
+        return new Result(1, msg, null);
     }
     public static Result error(String msg){
         return new Result(0, msg, null);
+    }
+
+    public static Result auto(Boolean code,String success,String fail,Object data){
+        if(code){
+            return success(success,data);
+        }else{
+            return error(fail);
+        }
     }
 
     @Override
