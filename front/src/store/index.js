@@ -61,7 +61,6 @@ export default new Vuex.Store({
 				store.commit('setActivityLoadingMark', true);
 
 				let offset = Math.ceil((date - store.state.standardLocalDate) / (30 * ONEDAY));
-				// console.log("Offset", offset);
 
 				for (let index = store.getters.nextIndex; index < offset; ++index) {
 					if (store.state.activityArray[index] != null) {

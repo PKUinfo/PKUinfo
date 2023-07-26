@@ -4,12 +4,6 @@
         <el-row :gutter="20">
             <!-- 1. 日期选择器 -->
             <el-col :offset="0" :span="4">
-                <!-- <el-date-picker
-                    type="dates"
-                    v-model="pickerTime"
-                    placeholder="选择特定日期"
-                    :picker-options="pickerOptions">
-                </el-date-picker> -->
                 <el-date-picker
                     v-model="pickerTime"
                     type="daterange"
@@ -47,30 +41,6 @@
         v-loading="activityListLoading">
             <el-table-column type="expand">
                 <template slot-scope="props">
-                    <!-- <el-form label-position="left" inline class="demo-table-expand">
-                        <el-form-item label="活动名称">
-                            <span>{{ props.row.title }}</span>
-                        </el-form-item>
-                        <el-form-item label="活动地点">
-                            <span>{{ props.row.address }}</span>
-                        </el-form-item>
-                        <el-form-item label="活动日期">
-                            <span>{{ props.row.date }}</span>
-                        </el-form-item>
-                        <el-form-item label="起止时间">
-                            <span>{{ props.row.startTime + " - " + props.row.endTime }}</span>
-                        </el-form-item>
-                        <el-form-item label="活动信息">
-                            <span>{{ props.row.desc }}</span>
-                        </el-form-item>
-                        <el-form-item label="column">
-                            <span>{{ props.row}}</span>
-                        </el-form-item>
-                        剩余条目后续可以加
-                        <el-form-item label="商品描述">
-                            <span>{{ props.row.desc }}</span>
-                        </el-form-item>
-                    </el-form> -->
                     <el-descriptions title="活动信息" :column="2" :colon="false">
                         <template slot="extra">
                             <el-button type="primary" icon="el-icon-edit" size="mini" @click="feedbackHandler(props.row)">反馈</el-button>
@@ -132,11 +102,14 @@ export default {
     
     data() {
         return {
+            // 日期选择器部分
             pickerOptions: {
+                // 控制可选范围
                 disabledDate(time) {
                     // 暂定截止时间最大为三个月
                     return (time.getTime() < new Date(new Date().toLocaleDateString()) || time.getTime() > new Date(Date.parse(new Date().toLocaleDateString()) + 1000*60*60*24*90 ));
                 },
+                // 快捷导航部分
                 shortcuts: [{
                     text: '最近一周',
                     onClick(picker) {
@@ -163,6 +136,7 @@ export default {
                     }
                 }],
             },
+            // 多选选项
             selectionOptions: [{
                 value: '西风骑士团',
                 label: '西风骑士团'
@@ -179,15 +153,21 @@ export default {
                 value: 'E',
                 label: 'E'
             }],
+            // 当前已选选项
             selectedValues: [],
+            // 当前页码
             currentPage:1,
+            // 当前选择日期
             pickerTime:[new Date(new Date().toLocaleDateString()),new Date(Date.parse(new Date().toLocaleDateString())+1000*60*60*24*30)],
+            // Drawer是否可见
             dialogTableVisible:false,
+            // 反馈信息
             feedbackInfo:null,
         };
     },
     
     mounted() {
+        // Deprecated
         // this.$watch(
         //     ()=>{
         //         return this.activityArray;
@@ -221,8 +201,6 @@ export default {
 
             if(this.pickerTime[1].getTime()>limitedRange){   
                 this.asyncUpdateActivityArray(this.pickerTime[1]);
-                
-                // console.log("PickerTime[1]:",this.pickerTime[1]);
             }else{
                 return;
             }
@@ -252,14 +230,11 @@ export default {
                 })
 
                 if(!invalidDateArray){
-                    // console.log("FlattedArray为空");
                     return [];
                 }
-                // console.log("FlattedArray非空");
             }
             // 数组展开
             let activityList = this.flattedArray;
-            // console.log(activityList);
 
             // 日期选择
             let begin = this.pickerTime[0];
@@ -267,8 +242,6 @@ export default {
             let result = activityList.filter(currentValue=>{
                 return Date.parse(currentValue.startDate) >= begin && Date.parse(currentValue.startDate)<= end;
             });
-
-            // console.log(result);
 
             // 复选框选择
             // demo版本 暂未插入选择字段

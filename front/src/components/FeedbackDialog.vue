@@ -5,15 +5,6 @@
             center
             :destroy-on-close="true"
             @close="clearFeedbackData()">
-            <!-- :before-close="clearFeedbackData()" -->
-            <!-- <el-row :gutter="20">
-                <el-col :span="4">
-                    <p>活动名称 :</p>
-                </el-col>
-                <el-col :span="12">
-                    <p>{{ this.info.title }}</p>
-                </el-col>
-            </el-row> -->
             <el-form label-position="right" 
                 label-width="120px" 
                 :rules="formRules"
@@ -39,7 +30,7 @@
                     <el-input v-model="formData.validationCode"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <verificationCode @update:changeCode="getCode"></verificationCode>
+                    <VerificationCode @update:changeCode="getCode"></VerificationCode>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -59,7 +50,7 @@
 </template>
 
 <script>
-import verificationCode from './verificationCode.vue';
+import VerificationCode from './VerificationCode.vue';
 import request from '@/utils/request';
 
 export default {
@@ -169,7 +160,7 @@ export default {
         }
     },
     components:{
-        verificationCode,
+        VerificationCode,
     }
 };
 </script>

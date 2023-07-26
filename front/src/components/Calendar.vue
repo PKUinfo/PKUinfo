@@ -88,12 +88,12 @@ export default {
         return {
             drawer:false,
             drawerDate:"",
-            // activeBarName:[],
             activityList:[],
         };
     },
     mounted() {
         // 更新后台数据
+        // 监听当前页面最大选择日期是否已经加载，未加载的情况进行加载
         this.$watch(
             ()=>{
                 return this.$refs.calendar.$children[1].rows[5][6];
@@ -110,7 +110,6 @@ export default {
                     // console.log(targetTimeRange,currentTimeLimit);
                     if(targetTimeRange > currentTimeLimit && targetTimeRange < this.standardMaxDate){
                         console.log("Calandar-immediate");
-
                         this.asyncUpdateActivityArray(targetTimeRange);
                     }else if(targetTimeRange<currentTimeLimit){
                         console.log("日历信息范围已经在列表中");
