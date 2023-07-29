@@ -15,6 +15,23 @@ class URL2JSON:
             jsondata["url"] = url
         return jsondata_list
 
+    def convert_to_ActivityInfo(self,json_data):
+        import json
+        import datetime
+        json_data = json.loads(json_data)
+        activityInfo = {}
+        activityInfo["title"] = json_data["title"]
+        activityInfo["address"] = json_data["location"]
+        activityInfo["startDate"] = datetime.datetime.strptime(json_data["data"],"%Y-%m-%d")
+        activityInfo["endDate"] = datetime.datetime.strptime(json_data["data"],"%Y-%m-%d")
+        activityInfo["startTime"] = datetime.datetime.strptime(json_data["time"],"%H:%M:%S")
+        activityInfo["endTime"] = datetime.datetime.strptime(json_data["time"],"%H:%M:%S")
+        activityInfo["description"] = json_data["event_summary"]
+        activityInfo["college"] = json_data["organizational_unit"]
+        activityInfo["accountLink"] = json_data["url"]
+        activityInfo["extraInfo"] = json_data["event_time"]
+        return activityInfo
+
 if __name__ == "__main__":
     url2json = URL2JSON()
     result = url2json.get_json(str('https://mp.weixin.qq.com/s/LUsA5qG5ysC77sugGcLjOA'))
@@ -29,16 +46,21 @@ if __name__ == "__main__":
         conn = result[0] # 客户端连接对象
         address = result[1] # 客户端地址信息
 
-        print("Address: ", address)
-
         data = conn.recv(1024)
-        # print("Accepted Information: ", str(data).split("'")[1])
-        print("Accepted Information: ", str(data))
-        print('json_info = ', url2json.get_json(str(data)))
+
+        result_jsonlist = url2json.get_json(str(data))
+        for result in result_jsonlist:
+            data = url2json.convert_to_ActivityInfo(str(result))
+            import requests
+            import json
+            url = 'http://localhost:8080/api/admin/activity'
+            headers = {'Content-Type': 'application/json'}
+            r = requests.post(url, data=json.dumps(data), headers=headers)
 
         info = "success"
         conn.send(info.encode())
         print("Message sent")
         conn.close()
+
 
     socket_server.close()
