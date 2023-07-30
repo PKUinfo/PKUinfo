@@ -28,14 +28,10 @@ class URL2JSON:
         activityInfo = {}
         activityInfo["title"] = json_data["event_name"]
         activityInfo["address"] = json_data["location"]
-        activityInfo["startDate"] = datetime.datetime.strptime(
-            json_data["data"], "%Y-%m-%d")
-        activityInfo["endDate"] = datetime.datetime.strptime(
-            json_data["data"], "%Y-%m-%d")
-        activityInfo["startTime"] = datetime.datetime.strptime(
-            json_data["time"], "%H:%M:%S")
-        activityInfo["endTime"] = datetime.datetime.strptime(
-            json_data["time"], "%H:%M:%S")
+        activityInfo["startDate"] = json_data["data"]
+        activityInfo["endDate"] = json_data["data"]
+        activityInfo["startTime"] = json_data["time"]
+        activityInfo["endTime"] =  json_data["time"]
         activityInfo["description"] = json_data["event_summary"]
         activityInfo["college"] = json_data["organizational_unit"]
         activityInfo["accountLink"] = json_data["url"]
@@ -55,6 +51,8 @@ if __name__ == "__main__":
     # for result in result_jsonlist:
     #     act = url2json.convert_to_ActivityInfo(str(result))
     #     print(act)
+    #     act = json.dumps(act)
+    #     print(act)
     # print('result = ', result)
     socket_server = socket.socket()
 
@@ -69,14 +67,16 @@ if __name__ == "__main__":
 
         data = conn.recv(1024)
 
-        result_jsonlist = url2json.get_json(str(data).split("'")[1])
+        result_jsonlist = url2json.get_jsonlist(str(data).split("'")[1])
         # print(str(data).split("'")[1])
         for result in result_jsonlist:
             data = url2json.convert_to_ActivityInfo(str(result))
+            # print(data)
             import requests
             import json
             url = 'http://localhost:8080/api/admin/activity'
             headers = {'Content-Type': 'application/json'}
+            print("result_data = ",data)
             r = requests.post(url, data=json.dumps(data), headers=headers)
             print("Post请求发送")
 
