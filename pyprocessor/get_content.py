@@ -58,6 +58,7 @@ class ContentGetter:
         r = requests.get(url)
         r.encoding = 'utf-8'
         html_doc = r.text
+        
         #时间获取部分 
         date1 = re.search(r'var ct = "(\d+)"', html_doc).group(1)
         date1 = int(date1)
@@ -66,8 +67,12 @@ class ContentGetter:
         print(time1)
         result = ""
         result += time1 + '\n'
+        
         #文字获取部分
         s = BeautifulSoup(html_doc,features='lxml')
+        title = s.find(id = "activity-name").text
+        result += title + '\n'
+        
         doc = s.find_all("p")
         for item in doc:
             ptxt = re.sub('\s',' ',item.get_text())
