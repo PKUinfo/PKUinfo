@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import os
 import csv
 import easyocr
+import time
 class ContentGetter:
     def __init__(self):
         
@@ -57,10 +58,17 @@ class ContentGetter:
         r = requests.get(url)
         r.encoding = 'utf-8'
         html_doc = r.text
+        #时间获取部分 
+        date1 = re.search(r'var ct = "(\d+)"', html_doc).group(1)
+        date1 = int(date1)
+        timearray = time.localtime(date1)
+        time1 = time.strftime("%Y-%m-%d %H:%M:%S", timearray)
+        print(time1)
+        result = ""
+        result += time1 + '\n'
         #文字获取部分
         s = BeautifulSoup(html_doc,features='lxml')
         doc = s.find_all("p")
-        result = ""
         for item in doc:
             ptxt = re.sub('\s',' ',item.get_text())
             result += ptxt + '\n'
