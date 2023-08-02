@@ -72,7 +72,12 @@ class ContentGetter:
         s = BeautifulSoup(html_doc,features='lxml')
         title = s.find(id = "activity-name").text
         result += title + '\n'
-        
+
+        doc = s.find_all("span")
+        for item in doc:
+            ptxt = re.sub('\s',' ',item.get_text())
+            result += ptxt + '\n'
+            
         doc = s.find_all("p")
         for item in doc:
             ptxt = re.sub('\s',' ',item.get_text())
