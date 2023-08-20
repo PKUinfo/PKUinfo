@@ -22,7 +22,3 @@ FILE pyprocessor/get_url.py exists something wrong, but it doesn't matters.
 3. **User Feedback and Management System:** Create a backend system that allows users to provide feedback on activities and events. This system will facilitate the efficient management and response to user suggestions.
 
 4. **Natural Language Interactive Filtering:** Enhance the user experience by introducing natural language processing capabilities. This will allow users to interactively filter activity information using human language commands.
-
-## Contact Information
-If you are interested in the project, please feel free to reach out to me through **chenqizhi@stu.pku.edu.cn**. I would be glad to connect with you!
-
