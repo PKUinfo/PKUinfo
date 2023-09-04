@@ -19,13 +19,13 @@ public class ActivityInfo {
 
     private String address;
 
-//    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @DateTimeFormat(pattern="dd-MM-yyyy")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    // @DateTimeFormat(pattern="dd-MM-yyyy")
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     private Date startDate;
 
-//    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @DateTimeFormat(pattern="dd-MM-yyyy")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    // @DateTimeFormat(pattern="dd-MM-yyyy")
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
     private Date endDate;
 

@@ -11,7 +11,7 @@ export default new Vuex.Store({
 		// activityList的loading标识符
 		activityListLoading: true,
 		// 当日日期
-		standardLocalDate: Date.parse(new Date().toLocaleDateString()),
+		standardLocalDate: Date.parse(new Date().toLocaleDateString()) - ONEDAY * 30,
 		// 每份为30天
 		activityArray: [null, null, null, null, null, null],
 		// 毫秒数
@@ -71,19 +71,19 @@ export default new Vuex.Store({
 					console.log(index, targetStartDate);
 
 					// 日期格式化
+					// convert 8-30-2023 to 2023/08/30
 					let targetStartDateStrArr = targetStartDate.split('/');
-					// 格式化月 日
+					let targetStartDateStr = targetStartDateStrArr[0] + '-' + targetStartDateStrArr[1] + '-' + targetStartDateStrArr[2];
 					if (targetStartDateStrArr[1].length < 2) {
 						targetStartDateStrArr[1] = '0' + targetStartDateStrArr[1];
 					}
 					if (targetStartDateStrArr[2].length < 2) {
 						targetStartDateStrArr[2] = '0' + targetStartDateStrArr[2];
 					}
-					let targetStartDateStr = targetStartDateStrArr.join('-');
-					// console.log(targetStartDateStr);
+					console.log(targetStartDateStr);
 
 					let res = await request.get('/user/activity/' + targetStartDateStr);
-					// console.log(res);
+					console.log(res);
 					let ins = {
 						res: res.data.data,
 						index: index
